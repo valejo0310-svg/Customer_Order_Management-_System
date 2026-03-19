@@ -31,7 +31,7 @@ def register_orders(clients):
                 break
 
         if client_found is None:
-            print("❌ Client not registered.")
+            print(" Client not registered.")
             continue
 
         # order (dictionary)
@@ -60,7 +60,7 @@ def register_orders(clients):
                     break
 
             if product_found is None:
-                print("❌ Product does not exist.")
+                print("Product does not exist.")
                 continue
 
             quantity = int(input("Quantity: "))
