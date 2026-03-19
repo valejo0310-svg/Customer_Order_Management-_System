@@ -11,7 +11,7 @@ The system allows users to enter customer information such as ID, name, and emai
 This project was developed following specific technical requirements such as the use of functions, dictionaries, and tuples, while maintaining code modularity and documentation in English.
 
 ## ≡ Getting Started ⤵︎
-### ➤ Dependencies
+### ► Dependencies
 
 Before running the program, make sure you have the following requirements:
 
@@ -20,6 +20,11 @@ Before running the program, make sure you have the following requirements:
   - Operating System: Windows, macOS, or Linux
 
   - A terminal or command prompt
+
+### ► Flowchart 
+
+<img width="3979" height="2713" alt="Flowchart-GroupCE-2" src="https://github.com/user-attachments/assets/53694c03-a46d-4ff8-8905-1b6309a2d9b7" />
+
 ## ≡ Installing ⤵︎
 
 Follow these steps to install and prepare the project:
