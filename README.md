@@ -35,6 +35,6 @@ Follow these steps to install and prepare the project:
 
   2. Open the project folder.
 
-  3. Make sure all project files are inside the same directory:
+  3. Make sure all project files are inside the same directory
 
   4. No additional libraries are required since the program uses only standard Python functionality.
