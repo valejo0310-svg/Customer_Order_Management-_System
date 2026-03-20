@@ -1,80 +1,89 @@
 def create_order(orders, customers, products):
-    """
-    Handles the creation of a new sales order by linking customers, 
-    products, and calculating totals using dictionaries and tuples.
-    """
-    # 1. PRE-VALIDATION: Check if necessary data exists before starting
+    # Check if there are registered customers, if not, notify and return orders unchanged
     if not customers:
         print("No customers registered.\n")
         return orders
 
+    # Check if there are registered products, if not, notify and return orders unchanged
     if not products:
         print("No products registered.\n")
         return orders
 
     print("\n====== CREATE ORDER ======\n")
 
-    # 2. IDENTIFICATION: Generate a unique ID for the order based on dictionary length
+    # Generate a new unique order ID based on the current number of orders
     order_id = len(orders) + 1
+
+    # Ask the user to enter the customer ID for this order
     customer_id = input("Enter customer ID: ")
 
-    # 3. CUSTOMER LOOKUP: Check if the ID exists as a key in the customers dictionary
+    # Validate that the entered customer ID exists in the customers dictionary
     if customer_id not in customers:
         print("Customer not found.\n")
         return orders
 
-    # 4. TEMPORARY STORAGE: Use a dictionary to collect products during the loop.
-    # This avoids using lists and ensures product IDs are unique within the order.
-    temp_products_dict = {} 
+    # Dictionary to store the products added to this order, keyed by product ID
+    order_products = {}
+
+    # Accumulator for the total cost of the order
     total = 0
+
+    # Control variable to keep the product-adding loop running
     continue_ciclo = "yes"
 
+    # Loop to keep adding products until the user decides to stop
     while continue_ciclo == "yes":
         try:
+            # Ask the user to enter the ID of the product they want to add
             product_id = int(input("Enter product ID: "))
 
+            # Variable to store the matching product, starts as None
             product_found = None
 
-            # 5. TUPLE SEARCH: Iterate through the 'products' tuple to find the ID (index 0)
+            # Search through all products to find the one matching the entered ID
             for product in products:
-                if product[0] == product_id:
+                if product["ID"] == product_id:
                     product_found = product
-                    break
+                    break  # Stop searching once the product is found
 
+            # If no product matched the entered ID, notify the user and restart the loop
             if product_found is None:
                 print("Product not found.")
                 continue
 
+            # Ask the user how many units of the product they want to order
             quantity = int(input("Enter quantity: "))
 
-            # 6. CALCULATIONS: Access product price at index [2] of the tuple
-            subtotal = product_found[2] * quantity
+            # Calculate the subtotal for this product (price × quantity)
+            subtotal = product_found["price"] * quantity
+
+            # Add the subtotal to the running total of the order
             total += subtotal
 
-            # 7. RECORD CREATION: Save product details as a tuple: (Name, Price, Qty, Subtotal)
-            # Storing them in a dictionary allows easy updates if the same ID is entered twice.
-            temp_products_dict[product_id] = (
-                product_found[1], # Name
-                product_found[2], # Price
-                quantity,         
-                subtotal          
-            )
+            # Store the product details in the order_products dictionary using product_id as key
+            # If the same product_id is entered again, it will overwrite the previous entry
+            order_products[product_id] = {
+                "nombre": product_found["nombre"],     
+                "price": product_found["price"],        
+                "quantity": quantity,                  
+                "subtotal": subtotal                   
+            }
 
+            # Ask the user if they want to add another product to the order
             continue_ciclo = input("Add another product? (yes/no): ").lower()
 
         except ValueError:
+            # Handle the case where the user enters a non-numeric value for ID or quantity
             print("Invalid data.")
 
-    # 8. DATA SEALING: Convert the dictionary values into a final immutable tuple of tuples
-    order_products_tuple = tuple(temp_products_dict.values())
-
-    # 9. FINAL STORAGE: Save the complete order into the main orders dictionary
+    # Save the completed order in the orders dictionary using the generated order ID as key
     orders[order_id] = {
-        "customer_id": customer_id,
-        "products": order_products_tuple, # Immutable record of items bought
-        "total": total
+        "customer_id": customer_id,    
+        "products": order_products,     
+        "total": total                  
     }
 
     print(f"Order {order_id} created successfully!\n")
 
+    # Return the updated orders dictionary with the new order included
     return orders
