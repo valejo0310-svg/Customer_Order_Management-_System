@@ -1,32 +1,56 @@
-def function_register(accumulated_tuple):
-    print("PRODUCT REGISTRATION")
+def function_register(products_dict):
+    """
+    This function allows the user to register multiple products.
+    Products are stored in a dictionary using the product ID as the key.
+    """
+
+    print("=== PRODUCT REGISTRATION ===")
+    
     product_counter = 1
-    continue_ciclo = "yes"
+    continue_loop = "yes"
 
-    while continue_ciclo == "yes":
+    # Loop to keep registering products
+    while continue_loop == "yes":
         print(f"-------- Product {product_counter} --------")
+        
         try:
-            id_product = int(input("Enter the product ID: "))
+            # Ask for product ID
+            product_id = int(input("Enter the product ID: "))
 
-            if id_product <= 0:
+            # Validate that ID is positive
+            if product_id <= 0:
                 print("The ID must be positive.")
                 continue
 
+            # Check if ID already exists
+            if product_id in products_dict:
+                print("This product ID already exists.")
+                continue
+
+            # Ask for product name
             product_name = input("Enter the product name: ")
+
+            # Ask for product price
             unit_price = float(input("Enter the price: "))
 
+            # Create product dictionary
             product = {
-                "ID": id_product,
-                "nombre": product_name,
+                "id": product_id,
+                "name": product_name,
                 "price": unit_price
             }
 
-            accumulated_tuple = accumulated_tuple + (product,)
+            # Store product in dictionary using ID as key
+            products_dict[product_id] = product
+
+            print("Product registered successfully!\n")
 
             product_counter += 1
-            continue_ciclo = input("Register another? (yes/no): ").lower()
+
+            # Ask user if they want to continue
+            continue_loop = input("Register another? (yes/no): ").lower()
 
         except ValueError:
-            print("Invalid data.")
+            print("Invalid data. Please enter correct values.\n")
 
-    return accumulated_tuple
+    return products_dict
