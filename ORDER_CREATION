@@ -1,0 +1,98 @@
+def register_orders(clients):
+    print("\n" + "="*50)
+    print("ORDER REGISTRATION")
+    print("="*50)
+
+    # default products (you can add more here)
+    products = (
+        # {"ID": 1, "name": "product1", "price": 1000},
+        # {"ID": 2, "name": "product2", "price": 2000},
+    )
+
+    continue_order = "yes"
+
+    while continue_order == "yes":
+
+        # order id
+        order_id = input("\nEnter order ID: ")
+
+        # show clients
+        print("\navailable clients:")
+        for c in clients:
+            print(f"- {c['name']} | ID: {c['id']} | Email: {c['email']}")
+
+        # select client
+        client_input = input("Enter the client's name: ").lower()
+
+        client_found = None
+        for c in clients:
+            if c["name"].lower() == client_input:
+                client_found = c
+                break
+
+        if client_found is None:
+            print(" Client not registered.")
+            continue
+
+        # order (dictionary)
+        order = {
+            "order_id": order_id,
+            "client": client_found,
+            "products": (),  # tuple
+            "subtotal": 0
+        }
+
+        add_product = "yes"
+
+        while add_product == "yes":
+
+            # show products
+            print("\navailable products:")
+            for p in products:
+                print(f"- {p['name']} (${p['price']})")
+
+            product_input = input("Enter the product: ").lower()
+
+            product_found = None
+            for p in products:
+                if p["name"].lower() == product_input:
+                    product_found = p
+                    break
+
+            if product_found is None:
+                print("Product does not exist.")
+                continue
+
+            quantity = int(input("Quantity: "))
+
+            total_product = quantity * float(product_found["price"])
+
+            # save product in order (tuple)
+            item = {
+                "product": product_found["name"],
+                "quantity": quantity,
+                "total": total_product
+            }
+
+            order["products"] = order["products"] + (item,)
+            order["subtotal"] += total_product
+
+            # ask if adding more products
+            add_product = input("Do you want to add another product? (yes/no): ").lower()
+
+        # order summary
+        print("\n" + "="*40)
+        print("ORDER SUMMARY")
+        print("="*40)
+
+        print(f"Order ID: {order['order_id']}")
+        print(f"Client: {order['client']['name']} (ID: {order['client']['id']})")
+
+        print("\npurchased products:")
+        for item in order["products"]:
+            print(f"- {item['product']} | Quantity: {item['quantity']} | Total: ${item['total']}")
+
+        print(f"\nSubtotal: ${order['subtotal']:.2f}")
+
+        # new order
+        continue_order = input("\nDo you want to register another order? (yes/no): ").lower()
